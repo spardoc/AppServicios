@@ -1,0 +1,201 @@
+openapi: 3.0.3
+info:
+  title: Personajes API
+  description: API para la gestión de personajes.
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@personajes.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/business/rs/
+tags:
+  - name: personaje
+    description: Descripcion de personajes
+paths:
+  /personaje:
+    post:
+      tags:
+        - personaje
+      summary: Crear un nuevo personaje
+      description: Crear un nuevo personaje en la base de datos.
+      operationId: crearPersonaje
+      requestBody:
+        description: Datos del personaje a crear
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Personaje'
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Personaje'
+        '400':
+          description: Error al guardar el personaje
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+    put:
+      tags:
+        - personaje
+      summary: Actualizar un un personaje existente.
+      description: Actualizar los datos de un un personaje existente en la base de datos.
+      operationId: actualizarPersonaje
+      requestBody:
+        description: Datos del personaje a actualizar
+        required: true
+        content:
+          application/json:
+            schema:
+                  $ref: '#/components/schemas/PersonajePut'
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Personaje'
+        '406':
+          description: Error al actualizar el personaje
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+    delete:
+      tags:
+        - personaje
+      summary: Borrar un personaje
+      description: Borrar un personaje de la base de datos.
+      operationId: borrarPersonaje
+      parameters:
+        - name: id
+          in: query
+          description: ID del personaje a borrar
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: integer
+        '500':
+          description: Error al borrar el personaje
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /personaje/list:
+    get:
+      tags:
+        - personaje
+      summary: Obtener todos los personajes
+      description: Obtener todos los personajes
+      operationId: leerPersonajePorCodigo
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Personaje'
+        '404':
+          description: Personaje no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /personaje/{codigo}:
+    get:
+      tags:
+        - personaje
+      summary: Obtener un personaje por su codigo
+      description: Obtener los datos de un personaje por su Codigo.
+      operationId: leerPersonajePorCodigo
+      parameters:
+        - name: codigo
+          in: path
+          description: Codigo del personaje a obtener
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Personaje'
+        '404':
+          description: Personaje no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+components:
+  schemas:
+    Personaje:
+      type: object
+      properties:
+        nombre:
+          type: string
+          example: 'Goku'
+        edad:
+          type: integer
+          example: 30
+        altura:
+          type: double
+          example: 1.75
+        peso:
+          type: double
+          example: 70.5
+        genero:
+          type: String
+          example: 'Hombre'
+        rol:
+          type: String
+          example: 'Peleador'
+          
+    PersonajePut:
+      type: object
+      properties:
+        codigo:
+          type: integer
+          format: int64
+          example: 1
+        nombre:
+          type: string
+          example: 'Goku'
+        edad:
+          type: integer
+          example: 30
+        altura:
+          type: double
+          example: 1.75
+        peso:
+          type: double
+          example: 70.5
+        genero:
+          type: String
+          example: 'Hombre'
+        rol:
+          type: String
+          example: 'Peleador'
+        
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string

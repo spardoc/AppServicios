@@ -1,0 +1,10 @@
+ec\edu\ups\sd64\AppServicios\services\ErrorMessage.class
+ec\edu\ups\sd64\AppServicios\services\PathBase.class
+ec\edu\ups\sd64\AppServicios\dao\PersonajeDao.class
+ec\edu\ups\sd64\AppServicios\services\JAXActivator.class
+ec\edu\ups\sd64\AppServicios\swagger\Context.class
+ec\edu\ups\sd64\AppServicios\swagger\Config.class
+ec\edu\ups\sd64\AppServicios\business\GestionPersonaje.class
+ec\edu\ups\sd64\AppServicios\services\PersonajeServices.class
+ec\edu\ups\sd64\AppServicios\services\CORSFilter.class
+ec\edu\ups\sd64\AppServicios\model\Personaje.class
