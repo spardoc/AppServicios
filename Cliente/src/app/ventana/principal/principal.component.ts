@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Personaje } from 'src/app/menu/Personaje';
 import { PersonajeServicesService } from 'src/app/services/personaje-services.service';
 
@@ -9,35 +9,35 @@ import { PersonajeServicesService } from 'src/app/services/personaje-services.se
   templateUrl: './principal.component.html',
   styleUrls: ['./principal.component.scss']
 })
-export class PrincipalComponent implements OnInit{
+export class PrincipalComponent implements OnInit {
   personajes: Personaje[] = [];
-  personaje: Personaje = new Personaje()
-  personajeForm: FormGroup
+  personaje: Personaje = new Personaje();
+  personajeForm: FormGroup;
   codigos?: number;
 
-  constructor(private personajeService: PersonajeServicesService, private fb: FormBuilder,
-    private route: ActivatedRoute,
-    private router: Router) {
-
-      this.personajeForm = this.fb.group({
-        marca: ['', Validators.required],
-        color: ['', Validators.required],
-        placa: ['', Validators.required]
-      });
-    }
+  constructor(
+    private personajeService: PersonajeServicesService,
+    private fb: FormBuilder,
+    private route: ActivatedRoute
+  ) {
+    this.personajeForm = this.fb.group({
+      nombre: ['', Validators.required],
+      edad: ['', Validators.required],
+      altura: ['', Validators.required],
+      peso: ['', Validators.required],
+      genero: ['', Validators.required],
+      rol: ['', Validators.required]
+    });
+  }
 
   ngOnInit(): void {
     this.loadPersonajes();
     const codigoParam = this.route.snapshot.paramMap.get('codigo');
-    if (codigoParam !== null) {
+    if (codigoParam) {
       this.codigos = +codigoParam;
-      if (this.codigos) {
-        this.personajeService.getPersonaje(this.codigos).subscribe((data: Personaje) => {
-          this.personajeForm.patchValue(data);
-        });
-      }
-    } else {
-      this.codigos = 0; // O cualquier valor por defecto que consideres apropiado
+      this.personajeService.getPersonaje(this.codigos).subscribe((data: Personaje) => {
+        this.personajeForm.patchValue(data);
+      });
     }
   }
 
@@ -48,30 +48,44 @@ export class PrincipalComponent implements OnInit{
   }
 
   deletePersonaje(codigo: number | undefined): void {
-    this.personajeService.deletePersonaje(codigo).subscribe(data => {
-      this.loadPersonajes();
-      console.log(data)
+    if (typeof codigo === 'number') {
+      this.personajeService.deletePersonaje(codigo).subscribe(() => {
+        this.loadPersonajes();
+      });
+    } else {
+      console.warn("Intento de eliminar un personaje sin código válido.");
+    }
+  }  
+
+  add(): void {
+    const newPersonaje = this.personajeForm.value;
+    this.personajeService.addPersonaje(newPersonaje).subscribe(() => {
+      location.reload();
     });
   }
 
-  add(): void {
-        this.personajeService.addPersonaje(this.personaje).subscribe(data => {
-          console.log(data)
-          location.reload()
-        });
+  update(): void {
+    const updatedPersonaje = {...this.personaje, ...this.personajeForm.value};
+    this.personajeService.updatePersonaje(updatedPersonaje).subscribe({
+      next: (response) => {
+        console.log('Update successful', response);
+        location.reload();  // Recarga la página para mostrar los cambios actualizados
+      },
+      error: (error) => {
+        console.error('Update failed', error);
       }
-
-  update(): void{
-    this.personajeService.updatePersonaje(this.personaje).subscribe(data=> {
-    console.log(data)
-    location.reload()
-  })}
-    
-  
-  selected(numero : any){
-    this.personajeService.getPersonaje(numero).subscribe(data=>{
-      console.log(data)
-      this.personaje = data
-    })
+    });
   }
+  
+
+  selected(codigo: number | undefined): void {
+    if (typeof codigo === 'number') {
+      this.personajeService.getPersonaje(codigo).subscribe(data => {
+        this.personaje = data;  // Asegúrate de que personaje está actualizado
+        this.personajeForm.patchValue(data);  // Actualiza el formulario con los datos del personaje
+      });
+    } else {
+      console.error("El código del personaje es undefined, selección fallida");
+    }
+  }  
 }

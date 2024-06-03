@@ -21,7 +21,6 @@ public class GestionPersonaje{
 
 	private final Tracer tracer = GlobalTracer.get();
 
-	//@Override
 	public void guardar(Personaje personaje) {
 		Span span = tracer.buildSpan("guardar").start();
 		try (Scope scope = tracer.scopeManager().activate(span)) {
@@ -35,15 +34,19 @@ public class GestionPersonaje{
 		}
 	}
 	
-	///@Override
 	public void actualizar(Personaje personaje) {
 		Personaje per = dao.getPersonaje(personaje.getCodigo());
 		Span span = tracer.buildSpan("actualizar").start();
         try (Scope scope = tracer.scopeManager().activate(span)) {
-		if(per != null) {
-			dao.update(per);
-		}
-		
+        	if(per != null) {
+        	    per.setNombre(personaje.getNombre());
+        	    per.setEdad(personaje.getEdad());
+        	    per.setAltura(personaje.getAltura());
+        	    per.setPeso(personaje.getPeso());
+        	    per.setGenero(personaje.getGenero());
+        	    per.setRol(personaje.getRol());
+        	    dao.update(per);
+        	}
         }catch (Exception e) {
 			span.log(e.getMessage());
 			throw e;
@@ -52,7 +55,7 @@ public class GestionPersonaje{
 			span.finish();
 		}
 	}
-	//@Override
+	
 	public Personaje getPersonaje(int codigo) throws Exception {
 		Personaje per = dao.getPersonaje(codigo);
 		Span span = tracer.buildSpan("getPersonaje").start();
@@ -69,7 +72,6 @@ public class GestionPersonaje{
 		}
 	}
 	
-	//@Override
 	public List<Personaje> getPersonajes() {
 		Span span = tracer.buildSpan("listar").start();
 		try{try (Scope scope = tracer.scopeManager().activate(span)) {

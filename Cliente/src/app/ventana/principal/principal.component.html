@@ -3,38 +3,38 @@
     <h1 class="Agregar">{{ codigos ? 'Editar personaje' : 'Agregar Personaje' }}</h1>
     <form [formGroup]="personajeForm">
       <div class="form-group">
-        <label for="marca">Nombre</label>
-        <input id="marca" [(ngModel)]="personaje.nombre" formControlName="marca" type="text">
+        <label for="nombre">Nombre</label>
+        <input id="nombre" formControlName="nombre" type="text">
       </div>
 
       <div class="form-group">
-        <label for="color">Edad</label>
-        <input id="color" [(ngModel)]="personaje.edad" formControlName="color" type="text">
+        <label for="edad">Edad</label>
+        <input id="edad" formControlName="edad" type="text">
       </div>
 
       <div class="form-group">
-        <label for="placa">Altura</label>
-        <input id="placa" [(ngModel)]="personaje.altura" formControlName="placa" type="text">
+        <label for="altura">Altura</label>
+        <input id="altura" formControlName="altura" type="text">
       </div>
 
       <div class="form-group">
-        <label for="placa">Peso</label>
-        <input id="placa" [(ngModel)]="personaje.peso" formControlName="placa" type="text">
+        <label for="peso">Peso</label>
+        <input id="peso" formControlName="peso" type="text">
       </div>
 
       <div class="form-group">
-        <label for="placa">Genero</label>
-        <input id="placa" [(ngModel)]="personaje.genero" formControlName="placa" type="text">
+        <label for="genero">Genero</label>
+        <input id="genero" formControlName="genero" type="text">
       </div>
 
       <div class="form-group">
-        <label for="placa">Rol</label>
-        <input id="placa" [(ngModel)]="personaje.rol" formControlName="placa" type="text">
+        <label for="rol">Rol</label>
+        <input id="rol" formControlName="rol" type="text">
       </div>
 
       <div class="buttons">
         <button type="button" (click)="add()">Agregar</button>
-        <button type="button" (click)="deletePersonaje(personaje.codigo)">Eliminar</button>
+        <button type="button" (click)="personaje.codigo ? deletePersonaje(personaje.codigo) : null">Eliminar</button>
         <button type="button" (click)="update()">Modificar</button>
       </div>
     </form>
@@ -65,4 +65,3 @@
       </tr>
     </tbody>
   </table>
-</div>
