@@ -1,56 +1,35 @@
-This project was created from the archetype "wildfly-jakartaee-webapp-archetype".
+# AppServicios
 
-To deploy it:
-Run the maven goals "install wildfly:deploy"
+## Descripción
+Este proyecto utiliza Docker Compose, WildFly, Angular, PostgreSQL, Swagger y Jaeger para crear una arquitectura de microservicios robusta. Se centra en la gestión de personajes, permitiendo operaciones CRUD a través de una interfaz amigable.
 
-To undeploy it:
-Run the maven goals "wildfly:undeploy"
+## Tecnologías Utilizadas
 
-==========================
+### Angular
+![Angular UI](img/angular.png)  
+**Angular** es utilizado para el frontend, facilitando la creación de interfaces de usuario dinámicas y reactivas.
 
-DataSource:
-This sample includes a "persistence.xml" file in "src/main/resources/META-INF". This file defines
-a persistence unit "AppServiciosPersistenceUnit" which uses the JakartaEE default database.
+### WildFly
+**WildFly** actúa como servidor de aplicaciones para el backend, proporcionando un entorno escalable y eficiente para ejecutar aplicaciones Java.  
 
-In production environment, you should define a database in WildFly config and point to this database
-in "persistence.xml".
+### PostgreSQL
+![PostgreSQL Database](img/base2.png)  
+**PostgreSQL** se emplea como sistema de gestión de bases de datos, destacando por su robustez y fiabilidad en el manejo de grandes volúmenes de datos.
 
-If you don't use entity beans, you can delete "persistence.xml".
-==========================
+### Swagger
+![Swagger UI](img/swagger1.png)  
+**Swagger** es utilizado para diseñar, construir y documentar las APIs RESTful de manera interactiva, mejorando la interfaz de desarrollo y facilitando la integración y pruebas.
 
-JSF:
-The web application is prepared for JSF 4.0 by bundling an empty "faces-config.xml" in "src/main/webapp/WEB-INF".
-In case you don't want to use JSF, simply delete this file and "src/main/webapp/beans.xml".
-==========================
+### Jaeger
+![Jaeger UI](img/jaeger1.png)  
+**Jaeger** se utiliza para el seguimiento y monitoreo de microservicios, ayudando a identificar y solucionar problemas en ambientes distribuidos.
 
-Testing:
-This sample is prepared for running JUnit5 unit tests with the Arquillian framework.
+### Docker
+![Docker Compose Execution](img/docker-compose_up.png)  
+**Docker** y **Docker Compose** son esenciales para la orquestación y despliegue de contenedores, permitiendo una gestión eficiente del ciclo de vida de la aplicación.
 
-The configuration can be found in "AppServicios/pom.xml":
+## Configuración y Ejecución
+Para ejecutar este proyecto, asegúrate de tener Docker y Docker Compose instalados. Luego, clona el repositorio y ejecuta:
 
-Three profiles are defined:
--"default": no integration tests are executed.
--"arq-remote": you have to start a WildFly server on your machine. The tests are executed by deploying
- the application to this server.
- Here the "maven-failsafe-plugin" is enabled so that integration tests can be run.
- Run maven with these arguments: "clean verify -Parq-remote"
--"arq-managed": this requires the environment variable "JBOSS_HOME" to be set:
- The server found in this path is started and the tests are executed by deploying the application to this server.
- Instead of using this environment variable, you can also define the path in "arquillian.xml".
- Here the "maven-failsafe-plugin" is enabled so that integration tests can be run.
- Run maven with these arguments: "clean verify -Parq-managed"
-
-The Arquillian test runner is configured with the file "src/test/resources/arquillian.xml"
-(duplicated in EJB and WEB project, depending where your tests are placed).
-The profile "arq-remote" uses the container qualifier "remote" in this file.
-The profile "arq-managed" uses the container qualifier "managed" in this file.
-
-The project contains an integration test "SampleIT" which shows how to create the deployable WAR file using the ShrinkWrap API.
-You can delete this test file if no tests are necessary.
-
-Why integration tests instead of the "maven-surefire-plugin" testrunner?
-The Arquillian test runner deploys the WAR file to the WildFly server and thus you have to build it yourself with the ShrinkWrap API.
-The goal "verify" (which triggers the maven-surefire-plugin) is executed later in the maven build lifecyle than the "test" goal so that the target
-artifact ("AppServicios.war") is already built. You can build
-the final WAR by including those files. The "maven-surefire-plugin" is executed before the WAR file
-are created, so this WAR files would have to be built in the "@Deployment" method, too.
+```bash
+docker-compose up
