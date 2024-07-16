@@ -26,7 +26,8 @@ export class PrincipalComponent implements OnInit {
       altura: ['', Validators.required],
       peso: ['', Validators.required],
       genero: ['', Validators.required],
-      rol: ['', Validators.required]
+      rol: ['', Validators.required],
+      correo: ['', Validators.required]
     });
   }
 

@@ -9,7 +9,7 @@ services:
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
-      POSTGRES_DB: personajesdb
+      POSTGRES_DB: universidadesdb
       POSTGRES_HOST: baseDeDatos 
     ports:
       - "5432:5432"
@@ -30,70 +30,20 @@ services:
     networks:
       - datalogger_net
 
-  personajes:
+  universidades:
     build:
-      context: .
       dockerfile: Dockerfile
     environment:
       - DB_HOST=postgres
       - DB_PORT=5432
-      - DB_NAME=personajesdb
+      - DB_NAME=universidadesdb
       - DB_USER=admin
       - DB_PASSWORD=admin
-      - JAEGER_AGENT_HOST=jaegertracingio
-      - JAEGER_AGENT_PORT=6831
-      - JAEGER_SAMPLER_TYPE=const
-      - JAEGER_SAMPLER_PARAM=1
     ports:
       - "8080:8080"
     depends_on:
       - postgres
     command: ["sh", "-c", "/opt/jboss/wildfly/bin/standalone.sh -b 0.0.0.0"]
-    networks:
-      - datalogger_net
-
-  swaggerui:
-    depends_on:
-      - personajes
-    image: swaggerapi/swagger-ui
-    environment:
-      SWAGGER_JSON: /api/openapi.yaml
-    ports:
-      - 8888:8080
-    volumes:
-      - ./openapi.yaml:/api/openapi.yaml
-    networks:
-      - datalogger_net
-
-  swaggereditor:
-    depends_on:
-      - personajes
-    image: swaggerapi/swagger-editor
-    ports:
-      - 9999:8080
-    networks:
-      - datalogger_net
-
-  jaegertracingio:
-    depends_on:
-      - personajes
-    image: jaegertracing/all-in-one:1.16.0
-    ports:
-      - 6831:6831/udp
-      - 16686:16686
-    networks:
-      - datalogger_net
-  
-  angular:
-    build:
-      context: ./Cliente
-      dockerfile: Dockerfile
-    container_name: angular
-    hostname: cliente
-    ports:
-      - 4200:80
-    depends_on:
-      - personajes
     networks:
       - datalogger_net
 

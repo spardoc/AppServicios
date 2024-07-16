@@ -6,5 +6,5 @@ export class Personaje {
     peso?: number;
     genero?: string;
     rol?: string;
+    correo?: string;
   }
-  

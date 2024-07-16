@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: C:\ProgramData\chocolatey\lib\kubernetes-kompose\tools\kompose.exe convert -f C:\Users\ADMIN\eclipse-workspace\AppServicios\docker-compose.yml
+    kompose.version: 1.34.0 (cbf2835db)
+  labels:
+    io.kompose.service: angular
+  name: angular
+spec:
+  ports:
+    - name: "4200"
+      port: 4200
+      targetPort: 80
+  selector:
+    io.kompose.service: angular

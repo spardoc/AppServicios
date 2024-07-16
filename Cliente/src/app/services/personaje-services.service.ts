@@ -7,7 +7,7 @@ import { Personaje } from '../menu/Personaje';
 })
 export class PersonajeServicesService {
 
-  private apiUrl = 'http://localhost:8080/business/rs/personaje'; 
+  private apiUrl = 'business/rs/personaje';
 
   constructor(private http: HttpClient) {}
 

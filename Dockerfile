@@ -13,7 +13,7 @@ ENV WILDFLY_PASS samuel
 ENV DS_NAME PostgreSQLDS
 ENV DS_USER admin
 ENV DS_PASS admin
-ENV DS_URI jdbc:postgresql://postgres:5432/personajesdb
+ENV DS_URI jdbc:postgresql://postgres:5432/universidadesdb
 ENV JBOSS_CLI $JBOSS_HOME/bin/jboss-cli.sh
 ENV DEPLOYMENT_DIR $JBOSS_HOME/standalone/deployments/
 
@@ -49,7 +49,6 @@ COPY target/business.war ${JBOSS_HOME}/standalone/deployments/
 
 # Exponer los puertos necesarios
 EXPOSE 8080
-#EXPOSE 9990
 
 # Comando para iniciar WildFly con la configuración específica
 CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0"]

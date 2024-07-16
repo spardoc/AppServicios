@@ -32,6 +32,11 @@
         <input id="rol" formControlName="rol" type="text">
       </div>
 
+      <div class="form-group">
+        <label for="correo">Correo</label>
+        <input id="correo" formControlName="correo" type="text">
+      </div>
+
       <div class="buttons">
         <button type="button" (click)="add()">Agregar</button>
         <button type="button" (click)="personaje.codigo ? deletePersonaje(personaje.codigo) : null">Eliminar</button>
@@ -52,6 +57,7 @@
         <th>Peso</th>
         <th>Genero</th>
         <th>Rol</th>
+        <th>Correo</th>
       </tr>
     </thead>
     <tbody>
@@ -62,6 +68,7 @@
         <td>{{ personaje.peso }}</td>
         <td>{{ personaje.genero }}</td>
         <td>{{ personaje.rol }}</td>
+        <td>{{ personaje.correo}}</td>
       </tr>
     </tbody>
   </table>
