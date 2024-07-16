@@ -1,7 +1,5 @@
 package ec.edu.ups.sd64.AppServicios.business;
-
 import java.util.List;
-
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 
